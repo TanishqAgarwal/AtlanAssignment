@@ -13,14 +13,7 @@ def create_app():
 
     load_dotenv()
     from config.settings import Config
-    # Assign configurations from Config class
-    # app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
-    # app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS')
 
-
-    # Print loaded environment variables
-    print(os.getenv('SQLALCHEMY_DATABASE_URI'))
-    print(os.getenv('SQLALCHEMY_TRACK_MODIFICATIONS'))
 
    
 

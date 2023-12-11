@@ -1,6 +1,5 @@
 
 import gspread
-# import pandas as pd
 import uuid
 from flask import Blueprint, jsonify, request
 from app.app import db
@@ -8,19 +7,6 @@ from app.models import User, Form, Question, Response, Answer, SubmittedResponse
 
 bp = Blueprint('routes', __name__)
 
-# credentials = {
-#   "type": "service_account",
-#   "project_id": "atlan-assignment-407614",
-#   "private_key_id": "290ff4d16bf63b7f63f2cfb6105f605ce4c7372a",
-#   "private_key": "-----BEGIN PRIVATE KEY-----\nMIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQCX6wZ9DGkfbeKL\nYmn6h4eThaps7by56VeCAtHN9mstAyNCnUvxsq5mJeI9eRcxq9eQ8QyR/4HEOIpB\nDOR4ML34QKBlwIzUb5mhLE9i0vY1KxK1lA+3McndM8bDtV12Ng0OjkEocUgDqHmH\nkC2fcTb33SJuF20y+l+TpFWsKCB6msMoawTGMpvdiwayJ62VpkzVXxt2ER0g3JNA\nioi1U2Nm6Lrtm59Gy9hHns57+xHeNSoiEZM+uPJTFpwNTZ+XZXMH20kaHsDVw3pv\n9GRIXwyhHBCXlQCVB1L2KOBFx9fpUBknvNOktY9hW2oozFaXxLZgjaSRZuX8pU3f\ntc3qA+srAgMBAAECggEANm052GAzY1KzeLtr+5lFvdkEC12LIVITi10mPHN9x1UZ\n81o2ZKPe7nLBIMP6xs1pgCCUH9RZ8epNwet0CQlxbfj9XicDbXKEKGWfFWk+UyMY\n41vl23yndSwBGImoL9tCh0X42xvmsITR8Xr6lWZyyo97r9SNx1dDGbqlBPYlWLb/\nOURt2auQd2IQx+PVrknu/HcRZdbM5LxpTByqgtFBQQ/ae/cGtBzwGCqtqtjjVSH4\nvSEMu7974Y2q6vFW2EP9r3ondAWUusqnpr2nzRXbLESi7zk1A9xK8O+Y+8LFyuSA\nl3diG36wzBPzTDJWz0iqi3IW0IIXr3zwJxsBY+xmlQKBgQDLDE65Yesm1Kvj8/4f\nYDkmceo27Mqoc79lzJZKoSaLRCo4IO92D/QRFe++oIQ75tUwtxNrb7wvKxyAnn/A\nLnXhoyybsA3w8s1hW+pzslbjkehjm//4H5lqcoBAyQBgIW5478P2QJ6lKTNwaFTv\nhGqDhR7IGCX4hCBBPlM/EeB3fwKBgQC/iTo0uRhyZCb65z0VDUIMAQiSVqvwhkNH\nNhncxiZE14cclEalRLzEz4O5TAye+0qP27NjiFrBvQRKfrbpu+kQlCEJHl1oxCOy\nChYc2D1J3C7IkFDN2olAAQLzanFZVP3rbcNS/lJo/LLdz5qacyXBqN+wfUcj6if+\nu+C8BxLCVQKBgQDFAOH419pxyHImL3tmMdQBSxE1zTUrj3IqcP941TYydSaJYtsz\nL3NciG4eBFuISwSZyWccHEL3eNqkqCPG8M0K6WjEfWJpXwqJ5cZqDqRjFBPnYVpP\nAUm2j/WD5gFpQ8aNrAPzjurd0EXKUE/oPA+kH6qn9VYR8w/gfXoDfXLOPQKBgQCm\nlgvx3yrMEx90CbqunKFdH2j9HjTdNWk+fmdwBUcziOESkkP/ahFke7ftaZ9whs8K\n3+LeJrII3wTkZeFg2PaUXMF+1NIZVL5XEz64R7rGiqKF/j7JS9Ejwb13SJTdRXaz\nVPwVKu0yMta+5Nlqi8vC68XiEpPVQMsYWv/TibNfIQKBgQCu0L2/S7ZARA9sraAf\n2u9cYlwjNQO2nATIFHXi/wJ6Q9/JRUznLWCF2fRN9nk5UY7e85bnROSnTtFy297V\nkOdiUNzqMaA4YJHGmJtZ+pCtgmECl8ufjpRyRiW9ogltDP9qqRyYaIF8+FkqO7go\npw0I2iPLKIBxpJzcSe5M/5M6yA==\n-----END PRIVATE KEY-----\n",
-#   "client_email": "atlanassignment@atlan-assignment-407614.iam.gserviceaccount.com",
-#   "client_id": "115143641290262811689",
-#   "auth_uri": "https://accounts.google.com/o/oauth2/auth",
-#   "token_uri": "https://oauth2.googleapis.com/token",
-#   "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
-#   "client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/atlanassignment%40atlan-assignment-407614.iam.gserviceaccount.com",
-#   "universe_domain": "googleapis.com"
-# }
 
 
 ####################################################################
@@ -41,7 +27,7 @@ def create_user():
     client = gspread.service_account(filename='credentials.json')
     wb_1 = client.open('Atlan Backend Assignment')
     wb_1_names = wb_1.get_worksheet(0)
-    # wb_1_names = pd.DataFrame(wb_1_names.get_all_records())
+
     print(wb_1_names)
     return jsonify({'message': 'User created successfully', 'user_id': str(new_user.id)}), 201
 
@@ -195,25 +181,6 @@ def create_answer():
     
     form_name = form.form_name
 
-    #  # Authenticate with Google Sheets using service account credentials
-    # client = gspread.service_account(filename='credentials.json')
-
-    # # Open the workbook
-    # wb_1 = client.open('Atlan Backend Assignment')
-
-    # # Access the sheet corresponding to the form_name
-    # sheet = wb_1.worksheet(form_name)
-
-    # # Find the column index with the matching question text
-    # first_row_values = sheet.row_values(1)  # Get the values in the first row
-    # column_index = first_row_values.index(question.text) + 1
-
-    # # Get all values in the column
-    # column_values = sheet.col_values(column_index)
-
-    # # Find the last filled cell in the column and add the answer text to the next row
-    # last_filled_cell = len(column_values) + 1
-    # sheet.update_cell(last_filled_cell, column_index, text)
     
     new_answer = Answer(question_id=question_id, response_id=response_id, text=text)
     db.session.add(new_answer)
